@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Trabajo Práctico 1 & 3
+ * Trabajo Práctico 1
  * Cátedra de Simulación
  * Universidad Tecnológica Nacional - Facultad Regional Córdoba
  *
@@ -23,8 +23,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("pantallaPrincipal.fxml"));
-        primaryStage.setTitle("UTN FRC - Simulación - TP1 & 3");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("UTN FRC - Simulación - TP1");
+        primaryStage.setScene(new Scene(root, 700, 675));
         primaryStage.show();
     }
 

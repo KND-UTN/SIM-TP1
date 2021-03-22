@@ -1,6 +1,6 @@
 package pruebasConsola;
 
-import metodos.ChiCuadrado;
+import pruebasBondad.ChiCuadrado;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,8 +1,99 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<GridPane fx:controller="Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Pane prefHeight="675.0" prefWidth="700.0">
+         <children>
+            <Label layoutX="31.0" layoutY="60.0" text="Seleccione el método:">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <RadioButton fx:id="rbtnMixto" layoutX="31.0" layoutY="85.0" mnemonicParsing="false" onAction="#btnMetodoCongruencialMixtoPresionado" text="Método Congruencial Mixto">
+               <toggleGroup>
+                  <ToggleGroup fx:id="grupo" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rbtnMultiplicativo" layoutX="31.0" layoutY="110.0" mnemonicParsing="false" onAction="#btnMetodoCongruencialMultiplicativoPresionado" text="Método Congruencial Multiplicativo" toggleGroup="$grupo" />
+            <RadioButton fx:id="rbtnLenguaje" layoutX="32.0" layoutY="135.0" mnemonicParsing="false" onAction="#btnMetodoDelLenguajePresionado" text="Método del Lenguaje" toggleGroup="$grupo" />
+            <Label layoutX="33.0" layoutY="164.0" text="Condiciones">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Separator layoutX="1.0" layoutY="314.0" prefHeight="17.0" prefWidth="694.0" />
+            <TableView fx:id="tblRandoms" layoutX="375.0" layoutY="64.0" prefHeight="233.0" prefWidth="254.0">
+               <columns>
+                  <TableColumn fx:id="itNumero" prefWidth="82.0" text="Iteración (i)" />
+                  <TableColumn fx:id="itRandom" prefWidth="171.0" text="Número (RND)" />
+               </columns>
+            </TableView>
+            <Label layoutX="31.0" layoutY="191.0" text="Semilla:" />
+            <Label layoutX="232.0" layoutY="190.0" text="c:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="274.0" text="Cantidad:" />
+            <Label fx:id="lblParam2" layoutX="232.0" layoutY="234.0" text="a:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblParam1" layoutX="117.0" layoutY="234.0" text="m:">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="221.0" layoutY="12.0" text="Generador de Números Aleatorios">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Separator layoutX="-20.0" layoutY="40.0" prefHeight="19.0" prefWidth="715.0" />
+            <Spinner fx:id="spnSeed" disable="true" editable="true" layoutX="86.0" layoutY="187.0" prefHeight="10.0" prefWidth="124.0" />
+            <Spinner fx:id="spnC" disable="true" editable="true" layoutX="258.0" layoutY="187.0" prefHeight="25.0" prefWidth="75.0" />
+            <Spinner fx:id="spnAK" disable="true" editable="true" layoutX="258.0" layoutY="231.0" prefHeight="25.0" prefWidth="75.0" />
+            <Spinner fx:id="spnMG" disable="true" editable="true" layoutX="137.0" layoutY="231.0" prefHeight="25.0" prefWidth="75.0" />
+            <Spinner fx:id="spnCant" disable="true" editable="true" layoutX="88.0" layoutY="270.0" prefHeight="20.0" prefWidth="124.0" />
+            <Button fx:id="btnGenerar" disable="true" layoutX="231.0" layoutY="270.0" mnemonicParsing="false" onAction="#botonGenerarPresionado" prefHeight="25.0" prefWidth="68.0" text="Generar" />
+            <Button fx:id="btnAdd" disable="true" layoutX="302.0" layoutY="270.0" mnemonicParsing="false" onAction="#botonProximoPresionado" text="+1" />
+            <Label layoutX="39.0" layoutY="343.0" text="Cantidad de subintervalos:" />
+            <Label layoutX="75.0" layoutY="378.0" text="Nivel de confianza:" />
+            <Button fx:id="btnChi" disable="true" layoutX="499.0" layoutY="339.0" mnemonicParsing="false" onAction="#botonTestChiPresionado" text="Test de Chi Cuadrado" />
+            <Button layoutX="499.0" layoutY="374.0" mnemonicParsing="false" onAction="#botonReiniciarPresionado" prefHeight="25.0" prefWidth="130.0" text="Reiniciar" />
+            <Spinner fx:id="spnIntervalos" disable="true" editable="true" layoutX="190.0" layoutY="339.0" prefHeight="25.0" prefWidth="133.0" />
+            <Spinner fx:id="spnConfianza" disable="true" editable="true" layoutX="190.0" layoutY="374.0" prefHeight="4.0" prefWidth="133.0" />
+            <TableView layoutX="193.0" layoutY="425.0" prefHeight="200.0" prefWidth="441.0">
+               <columns>
+                  <TableColumn prefWidth="151.0" text="Intervalo" />
+                  <TableColumn prefWidth="69.0" text="fo" />
+                  <TableColumn prefWidth="100.0" text="fe" />
+                  <TableColumn prefWidth="120.0" text="C" />
+               </columns>
+            </TableView>
+            <Label layoutX="36.0" layoutY="482.0" text="fo: Frecuencia Absoluta" />
+            <Label layoutX="37.0" layoutY="508.0" text="fe: Frecuencia Esperada" />
+            <Label layoutX="37.0" layoutY="535.0" text="C: Estadístico de prueba" />
+            <Separator layoutY="635.0" prefHeight="17.0" prefWidth="694.0" />
+            <Label layoutX="24.0" layoutY="652.0" text="Integrantes: Ignacio Pieve Roiger | Lorenzo Sala | Sofía Florencia Cibello | Leila Aylén Spini | Lara Estefanía Parrucci | Florencia Gonzalez">
+               <font>
+                  <Font size="11.0" />
+               </font></Label>
+            <Button fx:id="btnSwitch" disable="true" layoutX="27.0" layoutY="231.0" mnemonicParsing="false" onAction="#switchParametros" prefHeight="25.0" prefWidth="74.0" text="Switch" />
+         </children></Pane>
+   </children>
 </GridPane>

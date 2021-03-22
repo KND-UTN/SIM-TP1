@@ -1,25 +1,27 @@
 package pruebasConsola;
 
-import metodos.ChiCuadrado;
-import pruebasBondad.CongruencialMultiplicativo;
+import metodos.CongruencialMixto;
+import metodos.CongruencialMultiplicativo;
+import pruebasBondad.ChiCuadrado;
 
 import java.util.Arrays;
 
 public class testPorConsola1 {
     public static void main(String[] args) {
-        int m = 32;
-        int a = 19;
-        int xo = 17;
+        int m = 8;
+        int a = 13;
+        int xo = 6;
+        int c = 7;
         int cantValores = 20;       // Cantidad de valores a generar
         int cantIntervalos = 5;     // Cantidad de intervalos
 
-        CongruencialMultiplicativo numerosAleatorios = new CongruencialMultiplicativo(m,a,xo,cantValores);
+        CongruencialMixto numerosAleatorios = new CongruencialMixto(m, a, xo, c, cantValores);
         numerosAleatorios.generarValores();
 
         ChiCuadrado chi = new ChiCuadrado(cantIntervalos);
-        chi.procesar(numerosAleatorios.getNumeros());
+        chi.procesar(numerosAleatorios.getValores());
 
-        //System.out.println("Numeros generados: " + numerosAleatorios.getNumeros());
+        System.out.println("Numeros generados: " + numerosAleatorios.getValores());
         System.out.println("Intervalos: " + Arrays.toString(chi.getIntervalos()));
         System.out.println("Frecuencias Esperadas: " + Arrays.toString(chi.getFrecuenciasEsperadas()));
         System.out.println("Frecuencias Observadas: " + Arrays.toString(chi.getFrecuenciasObservadas()));
