@@ -79,7 +79,9 @@ public class ChiCuadrado {
     // Este metodo verifica si se puede rechazar o no la hipotesis nula
     private void testHipotesis()
     {
-        int gradosLibertad = intervalos.length - 1;
+        int gradosLibertad;
+        if (intervalos.length == 1) gradosLibertad = 1;
+        else gradosLibertad = intervalos.length - 1;
         // Con este alpha definimos que existe un riesgo de 5% de concluir que la muestra no se ajusta a la
         // distribución propuesta, cuando en realidad si lo hace.
         double alpha = 0.05;
@@ -124,4 +126,5 @@ public class ChiCuadrado {
     public double getValorCritico() {
         return valorCritico;
     }
+
 }

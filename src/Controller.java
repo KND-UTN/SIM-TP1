@@ -10,6 +10,8 @@ import metodos.AleatorioJava;
 import metodos.CongruencialMixto;
 import metodos.CongruencialMultiplicativo;
 import metodos.IMetodoGeneracion;
+import pruebasBondad.ChiCuadrado;
+import tablas.NumChi;
 import tablas.NumRandom;
 
 import java.util.ArrayList;
@@ -33,9 +35,18 @@ public class Controller {
     @FXML private Button btnAdd;
     @FXML private Button btnSwitch;
     @FXML private Button btnChi;
+    // Tabla de numeros aleatorios
     @FXML private TableView tblRandoms;
+    // Columnas de la tabla de numeros aleatorios
     @FXML private TableColumn itNumero;
     @FXML private TableColumn itRandom;
+    // Tabla de intervalos para Test de Chi Cuadrado
+    @FXML private TableView tablaChi;
+    // Columnas de la tabla de Test de Chi Cuadrado
+    @FXML private TableColumn itIntervalo;
+    @FXML private TableColumn itFo;
+    @FXML private TableColumn itFe;
+    @FXML private TableColumn itC;
 
     /**
      * ----------------------------------------- Variables del Controlador -----------------------------------------
@@ -46,7 +57,8 @@ public class Controller {
     int metodoGeneracionNum;                        // 0: Mixto - 1: Multiplicativo - 2: Lenguaje
     int cantidadDecimales = 4;
     int cantidadRandoms = 0;
-    ObservableList<String> listaRandoms = FXCollections.observableArrayList();
+    ObservableList<String> listaRandoms = FXCollections.observableArrayList();  // Lista de valores para la tabla de numeros aleatorios
+    ObservableList<String> listaDatos = FXCollections.observableArrayList();    // Lista de valores para la tabla de Test de Chi Cuadrado
 
     /**
      * -------------------------------------------- Métodos --------------------------------------------
@@ -62,10 +74,17 @@ public class Controller {
         spnCant.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE));
         spnIntervalos.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE));
         spnConfianza.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 1, 0.95, 0.01));
+
         // Definimos los parametros que van a tener las columnas de la primera tabla
         tblRandoms.setItems(listaRandoms);
         itNumero.setCellValueFactory(new PropertyValueFactory<>("i"));
         itRandom.setCellValueFactory(new PropertyValueFactory<>("num"));
+        // Definimos los parametros que van a tener las columnas de la segunda tabla
+        tablaChi.setItems(listaDatos);
+        itIntervalo.setCellValueFactory(new PropertyValueFactory<>("inter"));
+        itFo.setCellValueFactory(new PropertyValueFactory<>("fo"));
+        itFe.setCellValueFactory(new PropertyValueFactory<>("fe"));
+        itC.setCellValueFactory(new PropertyValueFactory<>("c"));
     }
 
     public void botonGenerarPresionado(ActionEvent actionEvent) {
@@ -103,7 +122,7 @@ public class Controller {
             int cant = spnCant.getValue();
             metodoGeneracion = new CongruencialMultiplicativo(m, a, xo, cant);
         }
-        if(metodoGeneracionNum == 2) metodoGeneracion = new AleatorioJava();
+        if(metodoGeneracionNum == 2) metodoGeneracion = new AleatorioJava(spnCant.getValue());
 
         // Despues generamos los valores y los mostramos en la tabla
         ArrayList<Double> valores = metodoGeneracion.generarValores();
@@ -125,6 +144,35 @@ public class Controller {
     }
 
     public void botonTestChiPresionado(ActionEvent actionEvent) {
+        btnChi.setDisable(true);
+        ChiCuadrado chi = new ChiCuadrado(spnIntervalos.getValue());
+        chi.procesar(metodoGeneracion.getValores());
+        double[] intervalos = chi.getIntervalos();
+        double [] frecuenciasO = chi.getFrecuenciasObservadas();
+        double [] frecuenciasE = chi.getFrecuenciasEsperadas();
+        double [] estadisticos = chi.getEstadisticos();
+        for (int i = 0; i <spnIntervalos.getValue() ; i++)
+        {
+            NumChi chicuadrado;
+            if(i == 0)
+            {
+                chicuadrado = new NumChi("0 - " +
+                        String.valueOf(((int) (intervalos[i]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales))
+                        ,String.valueOf((int) frecuenciasO[i])
+                        ,String.valueOf(((int) (frecuenciasE[i]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales))
+                        ,String.valueOf(((int) (estadisticos[i]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales)));
+            }
+            else
+            {
+                chicuadrado = new NumChi(String.valueOf(((int) (intervalos[i - 1]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales)) +
+                        " - " +
+                        String.valueOf(((int) (intervalos[i]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales))
+                        ,String.valueOf((int) frecuenciasO[i])
+                        ,String.valueOf(((int) (frecuenciasE[i]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales))
+                        ,String.valueOf(((int) (estadisticos[i]* Math.pow(10,cantidadDecimales))) / (double) Math.pow(10,cantidadDecimales)));
+            }
+            tablaChi.getItems().add(chicuadrado);
+        }
     }
 
     public void botonReiniciarPresionado(ActionEvent actionEvent) {
@@ -159,7 +207,7 @@ public class Controller {
         spnC.setDisable(true);
         spnMG.setDisable(true);
         spnAK.setDisable(true);
-        spnCant.setDisable(true);
+        spnCant.setDisable(false);
         btnGenerar.setDisable(false);
         btnAdd.setDisable(true);
         btnSwitch.setDisable(true);

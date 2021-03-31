@@ -77,12 +77,12 @@
             <Button layoutX="499.0" layoutY="374.0" mnemonicParsing="false" onAction="#botonReiniciarPresionado" prefHeight="25.0" prefWidth="130.0" text="Reiniciar" />
             <Spinner fx:id="spnIntervalos" disable="true" editable="true" layoutX="190.0" layoutY="339.0" prefHeight="25.0" prefWidth="133.0" />
             <Spinner fx:id="spnConfianza" disable="true" editable="true" layoutX="190.0" layoutY="374.0" prefHeight="4.0" prefWidth="133.0" />
-            <TableView layoutX="193.0" layoutY="425.0" prefHeight="200.0" prefWidth="441.0">
+            <TableView fx:id="tablaChi" layoutX="193.0" layoutY="425.0" prefHeight="200.0" prefWidth="441.0">
                <columns>
-                  <TableColumn prefWidth="151.0" text="Intervalo" />
-                  <TableColumn prefWidth="69.0" text="fo" />
-                  <TableColumn prefWidth="100.0" text="fe" />
-                  <TableColumn prefWidth="120.0" text="C" />
+                  <TableColumn fx:id="itIntervalo" prefWidth="151.0" text="Intervalo" />
+                  <TableColumn fx:id="itFo" prefWidth="69.0" text="fo" />
+                  <TableColumn fx:id="itFe" prefWidth="100.0" text="fe" />
+                  <TableColumn fx:id="itC" prefWidth="120.0" text="C" />
                </columns>
             </TableView>
             <Label layoutX="36.0" layoutY="482.0" text="fo: Frecuencia Absoluta" />

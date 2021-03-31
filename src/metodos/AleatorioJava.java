@@ -1,18 +1,43 @@
 package metodos;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class AleatorioJava implements IMetodoGeneracion{
+public class AleatorioJava implements IMetodoGeneracion
+{
 
-    public ArrayList<Double> generarValores() {
-        return null;
+    final Random random = new Random();
+    final int cantidad;
+    ArrayList<Double> numeros = new ArrayList<Double>();
+
+
+    public AleatorioJava(int cant){
+        this.cantidad = cant;
     }
 
-    public double generarValorExtra() {
-        return 0;
+    @Override
+    public ArrayList<Double> generarValores()
+    {
+        for (int i = 0; i < cantidad; i++)
+        {
+            numeros.add(random.nextDouble());
+
+        }
+        return numeros;
+
     }
 
-    public ArrayList<Double> getValores() {
-        return null;
+    @Override
+    public double generarValorExtra()
+    {
+        double num = random.nextDouble();
+        numeros.add(num);
+        return num;
+    }
+
+    @Override
+    public ArrayList<Double> getValores()
+    {
+        return numeros;
     }
 }
