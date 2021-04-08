@@ -29,7 +29,7 @@ public class CongruencialMixto implements IMetodoGeneracion
         {
             double aXic = ((this.a * xi)+c);
             double xi1 = aXic%this.m;
-            random = xi1 / (m-1);
+            random = xi1 / m;
             numeros.add(random);
             xi = xi1;
         }
@@ -40,7 +40,7 @@ public class CongruencialMixto implements IMetodoGeneracion
     {
         double aXic = ((this.a * xi)+c);
         double xi1 = aXic%this.m;
-        random = xi1 / (m-1);
+        random = xi1 / m;
         numeros.add(random);
         xi = xi1;
         return random;

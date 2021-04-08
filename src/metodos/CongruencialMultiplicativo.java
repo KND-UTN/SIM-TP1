@@ -27,7 +27,7 @@ public class CongruencialMultiplicativo implements IMetodoGeneracion
         {
             double aXi = (this.a * xi);
             double xi1 = aXi%this.m;
-            random = xi1 / (m-1);
+            random = xi1 / m;
             numeros.add(random);
             xi = xi1;
         }
@@ -38,7 +38,7 @@ public class CongruencialMultiplicativo implements IMetodoGeneracion
     {
         double aXi = (this.a * xi);
         double xi1 = aXi%this.m;
-        random = xi1 / (m-1);
+        random = xi1 / m;
         numeros.add(random);
         xi = xi1;
         return random;

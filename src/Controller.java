@@ -145,12 +145,15 @@ public class Controller {
 
     public void botonTestChiPresionado(ActionEvent actionEvent) {
         btnChi.setDisable(true);
+
         ChiCuadrado chi = new ChiCuadrado(spnIntervalos.getValue());
         chi.procesar(metodoGeneracion.getValores());
+
         double[] intervalos = chi.getIntervalos();
         double [] frecuenciasO = chi.getFrecuenciasObservadas();
         double [] frecuenciasE = chi.getFrecuenciasEsperadas();
         double [] estadisticos = chi.getEstadisticos();
+
         for (int i = 0; i <spnIntervalos.getValue() ; i++)
         {
             NumChi chicuadrado;
