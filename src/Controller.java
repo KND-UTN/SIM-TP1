@@ -4,8 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import metodos.AleatorioJava;
 import metodos.CongruencialMixto;
 import metodos.CongruencialMultiplicativo;
@@ -14,6 +23,9 @@ import pruebasBondad.ChiCuadrado;
 import tablas.NumChi;
 import tablas.NumRandom;
 
+import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,6 +36,7 @@ public class Controller {
      */
     @FXML private Label lblParam1;
     @FXML private Label lblParam2;
+    @FXML private Label lblResultadoTest;
     @FXML private Spinner<Integer> spnSeed;
     @FXML private Spinner<Integer> spnC;
     @FXML private Spinner<Integer> spnMG;
@@ -35,6 +48,7 @@ public class Controller {
     @FXML private Button btnAdd;
     @FXML private Button btnSwitch;
     @FXML private Button btnChi;
+    @FXML private Button btnHistograma;
     // Tabla de numeros aleatorios
     @FXML private TableView tblRandoms;
     // Columnas de la tabla de numeros aleatorios
@@ -97,8 +111,9 @@ public class Controller {
         btnAdd.setDisable(false);
         btnSwitch.setDisable(true);
         spnIntervalos.setDisable(false);
-                spnConfianza.setDisable(false);
+        spnConfianza.setDisable(false);
         btnChi.setDisable(false);
+        lblResultadoTest.setVisible(true);
 
         // Cuando se presiona el boton de generar, primero instanciamos la clase correspondiente
         if(metodoGeneracionNum == 0)
@@ -145,8 +160,10 @@ public class Controller {
 
     public void botonTestChiPresionado(ActionEvent actionEvent) {
         btnChi.setDisable(true);
+        btnHistograma.setDisable(false);
+        lblResultadoTest.setVisible(true);
 
-        ChiCuadrado chi = new ChiCuadrado(spnIntervalos.getValue());
+        chi = new ChiCuadrado(spnIntervalos.getValue());
         chi.procesar(metodoGeneracion.getValores());
 
         double[] intervalos = chi.getIntervalos();
@@ -176,9 +193,37 @@ public class Controller {
             }
             tablaChi.getItems().add(chicuadrado);
         }
+
+        Integer gradosLibertad = chi.getIntervalos().length - 1;
+        Double valorCritico = chi.getValorCritico();                // Valor critico = valor tabulado
+        Double valorCalculado = chi.getEstadisticoPrueba();
+        String mensaje = "Resultado del Test: \n";
+        if (chi.isRechazada())
+        {
+            mensaje = mensaje + "Con " + gradosLibertad.toString() + " grados de libertad, ";
+            mensaje = mensaje + " se obtuvo un valor calculado de " + valorCalculado.toString() + ", \nel cual es mayor ";
+            mensaje = mensaje + " al valor tabulado (" + valorCritico.toString() + "), \npor lo que ";
+            mensaje = mensaje + " se rechaza la hipotesis nula de que los valores aleatorios tienen una distribucion uniforme.";
+            lblResultadoTest.setText(mensaje);
+        }
+        else
+        {
+            mensaje = mensaje + "Con " + gradosLibertad.toString() + " grados de libertad, ";
+            mensaje = mensaje + " se obtuvo un valor calculado de " + valorCalculado.toString() + ", \nel cual es menor ";
+            mensaje = mensaje + " al valor tabulado (" + valorCritico.toString() + "), \npor lo que ";
+            mensaje = mensaje + " no se rechaza la hipotesis nula de que los valores aleatorios tienen una distribucion uniforme.";
+            lblResultadoTest.setText(mensaje);
+        }
     }
 
-    public void botonReiniciarPresionado(ActionEvent actionEvent) {
+    public void botonReiniciarPresionado(ActionEvent actionEvent) throws IOException {
+        Stage nuevaVentana = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("pantallaPrincipal.fxml"));
+        nuevaVentana.setTitle("UTN FRC - Simulación - TP1");
+        nuevaVentana.setScene(new Scene(root, 700, 750));
+        nuevaVentana.show();
+        Main.stage.close();
+        Main.stage = nuevaVentana;
     }
 
     public void btnMetodoCongruencialMixtoPresionado(ActionEvent actionEvent) {
@@ -228,5 +273,58 @@ public class Controller {
             lblParam1.setText("m:");
             lblParam2.setText("a:");
         }
+    }
+
+    public void mostrarHistograma(ActionEvent actionEvent)
+    {
+        Stage grafico = new Stage();
+
+        // Definición de los ejes
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Intervalos");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Frecuencias");
+
+        //Definición de la gráfica
+        BarChart barChart = new BarChart(xAxis, yAxis);
+
+        XYChart.Series dataSeries1 = new XYChart.Series();
+        dataSeries1.setName("Fo");
+
+
+
+        barChart.getData().add(dataSeries1);
+
+        XYChart.Series dataSeries2 = new XYChart.Series();
+        dataSeries2.setName("Fe");
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
+        double extremoIzquierdo;
+        double extremoDerecho;
+        for ( int i = 0 ; i < chi.getIntervalos().length ; i++ )
+        {
+            if (i == 0)
+            {
+                extremoDerecho = new Double(df.format(chi.getIntervalos()[i]));
+                dataSeries1.getData().add(new XYChart.Data("[ 0.0, " + extremoDerecho + "]", chi.getFrecuenciasObservadas()[i]));
+                dataSeries2.getData().add(new XYChart.Data("[ 0.0, " + extremoDerecho + "]", chi.getFrecuenciasEsperadas()[i]));
+            }
+            else
+            {
+                extremoIzquierdo = new Double(df.format(chi.getIntervalos()[i - 1]));
+                extremoDerecho = new Double(df.format(chi.getIntervalos()[i]));
+                dataSeries1.getData().add(new XYChart.Data("[ " + extremoIzquierdo + ", " + extremoDerecho + "]", chi.getFrecuenciasObservadas()[i]));
+                dataSeries2.getData().add(new XYChart.Data("[ " + extremoIzquierdo + ", " + extremoDerecho + "]", chi.getFrecuenciasEsperadas()[i]));
+            }
+        }
+
+        barChart.getData().add(dataSeries2);
+
+        VBox vbox = new VBox(barChart);
+        grafico.setTitle("Histograma");
+        grafico.setScene(new Scene(vbox, 600, 400));
+        grafico.show();
     }
 }

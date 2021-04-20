@@ -19,13 +19,15 @@ import javafx.stage.Stage;
  */
 
 public class Main extends Application {
+    static Stage stage;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("pantallaPrincipal.fxml"));
         primaryStage.setTitle("UTN FRC - Simulación - TP1");
-        primaryStage.setScene(new Scene(root, 700, 675));
+        primaryStage.setScene(new Scene(root, 700, 750));
         primaryStage.show();
+        stage = primaryStage;
     }
 
     public static void main(String[] args) {

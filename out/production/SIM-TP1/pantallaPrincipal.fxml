@@ -16,7 +16,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Pane prefHeight="675.0" prefWidth="700.0">
+      <Pane prefHeight="759.0" prefWidth="700.0">
          <children>
             <Label layoutX="31.0" layoutY="60.0" text="Seleccione el método:">
                <font>
@@ -88,12 +88,15 @@
             <Label layoutX="36.0" layoutY="482.0" text="fo: Frecuencia Absoluta" />
             <Label layoutX="37.0" layoutY="508.0" text="fe: Frecuencia Esperada" />
             <Label layoutX="37.0" layoutY="535.0" text="C: Estadístico de prueba" />
-            <Separator layoutY="635.0" prefHeight="17.0" prefWidth="694.0" />
-            <Label layoutX="24.0" layoutY="652.0" text="Integrantes: Ignacio Pieve Roiger | Lorenzo Sala | Sofía Florencia Cibello | Leila Aylén Spini | Lara Estefanía Parrucci | Florencia Gonzalez">
+            <Separator layoutX="1.0" layoutY="712.0" prefHeight="17.0" prefWidth="694.0" />
+            <Label layoutX="24.0" layoutY="729.0" text="Integrantes: Ignacio Pieve Roiger | Lorenzo Sala | Sofía Florencia Cibello | Leila Aylén Spini | Lara Estefanía Parrucci | Florencia Gonzalez">
                <font>
                   <Font size="11.0" />
                </font></Label>
             <Button fx:id="btnSwitch" disable="true" layoutX="27.0" layoutY="231.0" mnemonicParsing="false" onAction="#switchParametros" prefHeight="25.0" prefWidth="74.0" text="Switch" />
+            <Button fx:id="btnHistograma" disable="true" layoutX="40.0" layoutY="600.0" mnemonicParsing="false" onAction="#mostrarHistograma" text="Mostrar Histograma" />
+            <Label fx:id="lblResultadoTest" layoutX="26.0" layoutY="645.0" text="Resultado del Test:" visible="false" />
+            <Separator layoutX="3.0" layoutY="625.0" prefHeight="17.0" prefWidth="694.0" />
          </children></Pane>
    </children>
 </GridPane>
