@@ -72,7 +72,8 @@ public class Controller {
     int cantidadDecimales = 4;
     int cantidadRandoms = 0;
     ObservableList<String> listaRandoms = FXCollections.observableArrayList();  // Lista de valores para la tabla de numeros aleatorios
-    ObservableList<String> listaDatos = FXCollections.observableArrayList();    // Lista de valores para la tabla de Test de Chi Cuadrado
+    ObservableList<String> listaDatos = FXCollections.observableArrayList(); // Lista de valores para la tabla de Test de Chi Cuadrado
+    ChiCuadrado chi;
 
     /**
      * -------------------------------------------- Métodos --------------------------------------------
